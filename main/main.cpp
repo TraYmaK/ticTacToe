@@ -9,7 +9,8 @@ bool gameover = false;
 
 void draw(const char map[3][3]) {
 	;
-	cout << "+---+---+---+                    Правила: первое значение означает ось X, второе ось Y" << endl;
+	cout << "Правила: первое значение означает ось X, второе ось Y" << endl << endl; 
+	cout << "+---+---+---+" << endl;
 	for (int i = 0; i < 3; i++) {
 		cout << "| ";
 		for (int j = 0; j < 3; j++) {
