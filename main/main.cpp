@@ -9,7 +9,7 @@ bool gameover = false;
 
 void draw(const char map[3][3]) {
 	;
-	cout << "Правила: первое значение означает ось X, второе ось Y" << endl << endl; 
+	cout << "Правила: первое значение означает ось X, второе ось Y" << endl << endl;
 	cout << "+---+---+---+" << endl;
 	for (int i = 0; i < 3; i++) {
 		cout << "| ";
@@ -45,12 +45,40 @@ int main() {
 		cin >> z;
 		cout << "Введите X или O (буквами): ";
 		cin >> c;
-		if (z >= 0 && z < 3 && x >= 0 && x < 3 && map[z][x] == ' ') {
+		if (z >= 0 && z < 3 && x >= 0 && x < 3 && map[z][x] == ' ' && (c == 'X' || c == 'x' || c == 'O' || c == 'o')) {
 			map[z][x] = c;
 		}
 		else {
 			cout << endl << "Error \n";
 			system("pause");
+		}
+		if ((map[0][0] == 'x' && map[0][1] == 'x' && map[0][2] == 'x') ||
+			(map[1][0] == 'x' && map[1][1] == 'x' && map[1][2] == 'x') ||
+			(map[2][0] == 'x' && map[2][1] == 'x' && map[2][2] == 'x') ||
+			(map[0][0] == 'x' && map[1][0] == 'x' && map[2][0] == 'x') ||
+			(map[0][1] == 'x' && map[1][1] == 'x' && map[2][1] == 'x') ||
+			(map[0][2] == 'x' && map[1][2] == 'x' && map[2][2] == 'x') ||
+			(map[0][0] == 'x' && map[1][1] == 'x' && map[2][2] == 'x') ||
+			(map[0][2] == 'x' && map[1][1] == 'x' && map[2][0] == 'x')) {
+			system("cls");
+			draw(map);
+			cout << endl << "Игрок X победил!\n";
+			system("pause");
+			gameover = true;
+		}
+		if ((map[0][0] == 'o' && map[0][1] == 'o' && map[0][2] == 'o') ||
+			(map[1][0] == 'o' && map[1][1] == 'o' && map[1][2] == 'o') ||
+			(map[2][0] == 'o' && map[2][1] == 'o' && map[2][2] == 'o') ||
+			(map[0][0] == 'o' && map[1][0] == 'o' && map[2][0] == 'o') ||
+			(map[0][1] == 'o' && map[1][1] == 'o' && map[2][1] == 'o') ||
+			(map[0][2] == 'o' && map[1][2] == 'o' && map[2][2] == 'o') ||
+			(map[0][0] == 'o' && map[1][1] == 'o' && map[2][2] == 'o') ||
+			(map[0][2] == 'o' && map[1][1] == 'o' && map[2][0] == 'o')) {
+			system("cls");
+			draw(map);
+			cout << endl << "Игрок O победил!\n";
+			system("pause");
+			gameover = true;
 		}
 	}
 	return 0;
