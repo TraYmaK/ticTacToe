@@ -52,33 +52,35 @@ int main() {
 			cout << endl << "Error \n";
 			system("pause");
 		}
-		if ((map[0][0] == 'x' && map[0][1] == 'x' && map[0][2] == 'x') ||
-			(map[1][0] == 'x' && map[1][1] == 'x' && map[1][2] == 'x') ||
-			(map[2][0] == 'x' && map[2][1] == 'x' && map[2][2] == 'x') ||
-			(map[0][0] == 'x' && map[1][0] == 'x' && map[2][0] == 'x') ||
-			(map[0][1] == 'x' && map[1][1] == 'x' && map[2][1] == 'x') ||
-			(map[0][2] == 'x' && map[1][2] == 'x' && map[2][2] == 'x') ||
-			(map[0][0] == 'x' && map[1][1] == 'x' && map[2][2] == 'x') ||
-			(map[0][2] == 'x' && map[1][1] == 'x' && map[2][0] == 'x')) {
-			system("cls");
-			draw(map);
-			cout << endl << "Игрок X победил!\n";
-			system("pause");
-			gameover = true;
-		}
-		if ((map[0][0] == 'o' && map[0][1] == 'o' && map[0][2] == 'o') ||
-			(map[1][0] == 'o' && map[1][1] == 'o' && map[1][2] == 'o') ||
-			(map[2][0] == 'o' && map[2][1] == 'o' && map[2][2] == 'o') ||
-			(map[0][0] == 'o' && map[1][0] == 'o' && map[2][0] == 'o') ||
-			(map[0][1] == 'o' && map[1][1] == 'o' && map[2][1] == 'o') ||
-			(map[0][2] == 'o' && map[1][2] == 'o' && map[2][2] == 'o') ||
-			(map[0][0] == 'o' && map[1][1] == 'o' && map[2][2] == 'o') ||
-			(map[0][2] == 'o' && map[1][1] == 'o' && map[2][0] == 'o')) {
-			system("cls");
-			draw(map);
-			cout << endl << "Игрок O победил!\n";
-			system("pause");
-			gameover = true;
+		for (int i = 0; i < 3; i++) {
+			if ((map[i][0] == 'x' && map[i][1] == 'x' && map[i][2] == 'x') || (map[i][0] == 'X' && map[i][1] == 'X' && map[i][2] == 'X')) {
+				system("cls");
+				draw(map);
+				cout << endl << "Игрок X победил!\n";
+				system("pause");
+				gameover = true;
+			}
+			else if ((map[0][i] == 'x' && map[1][i] == 'x' && map[2][i] == 'x') || (map[0][i] == 'X' && map[1][i] == 'X' && map[2][i] == 'X')) {
+				system("cls");
+				draw(map);
+				cout << endl << "Игрок X победил!\n";
+				system("pause");
+				gameover = true;
+			}
+			else if ((map[i][0] == 'o' && map[i][1] == 'o' && map[i][2] == 'o') || (map[i][0] == 'O' && map[i][1] == 'O' && map[i][2] == 'O')) {
+				system("cls");
+				draw(map);
+				cout << endl << "Игрок O победил!\n";
+				system("pause");
+				gameover = true;
+			}
+			else if ((map[0][i] == 'o' && map[1][i] == 'o' && map[2][i] == 'o') || (map[0][i] == 'O' && map[1][i] == 'O' && map[2][i] == 'O')) {
+				system("cls");
+				draw(map);
+				cout << endl << "Игрок O победил!\n";
+				system("pause");
+				gameover = true;
+			}
 		}
 	}
 	return 0;
