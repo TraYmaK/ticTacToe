@@ -23,6 +23,26 @@ void draw(const char map[3][3]) {
 
 
 
+void winnerO(const char map[3][3]) {
+	system("cls");
+	draw(map);
+	cout << endl << "Игрок O победил!\n";
+	system("pause");
+	gameover = true;
+}
+
+
+
+void winnerX(const char map[3][3]) {
+	system("cls");
+	draw(map);
+	cout << endl << "Игрок X победил!\n";
+	system("pause");
+	gameover = true;
+}
+
+
+
 int main() {
 	setlocale(LC_ALL, "RU");
 
@@ -54,33 +74,25 @@ int main() {
 		}
 		for (int i = 0; i < 3; i++) {
 			if ((map[i][0] == 'x' && map[i][1] == 'x' && map[i][2] == 'x') || (map[i][0] == 'X' && map[i][1] == 'X' && map[i][2] == 'X')) {
-				system("cls");
-				draw(map);
-				cout << endl << "Игрок X победил!\n";
-				system("pause");
-				gameover = true;
+				winnerX(map);
 			}
 			else if ((map[0][i] == 'x' && map[1][i] == 'x' && map[2][i] == 'x') || (map[0][i] == 'X' && map[1][i] == 'X' && map[2][i] == 'X')) {
-				system("cls");
-				draw(map);
-				cout << endl << "Игрок X победил!\n";
-				system("pause");
-				gameover = true;
+				winnerX(map);
 			}
 			else if ((map[i][0] == 'o' && map[i][1] == 'o' && map[i][2] == 'o') || (map[i][0] == 'O' && map[i][1] == 'O' && map[i][2] == 'O')) {
-				system("cls");
-				draw(map);
-				cout << endl << "Игрок O победил!\n";
-				system("pause");
-				gameover = true;
+				winnerO(map);
 			}
 			else if ((map[0][i] == 'o' && map[1][i] == 'o' && map[2][i] == 'o') || (map[0][i] == 'O' && map[1][i] == 'O' && map[2][i] == 'O')) {
-				system("cls");
-				draw(map);
-				cout << endl << "Игрок O победил!\n";
-				system("pause");
-				gameover = true;
+				winnerO(map);
 			}
+		}
+		if ((map[0][0] == 'x' && map[1][1] == 'x' && map[2][2] == 'x') || (map[0][0] == 'X' && map[1][1] == 'X' && map[2][2] == 'X') ||
+			(map[2][0] == 'x' && map[1][1] == 'x' && map[0][2] == 'x') || (map[2][0] == 'X' && map[1][1] == 'X' && map[0][2] == 'X')) {
+			winnerX(map);
+		}
+		else if ((map[0][0] == 'o' && map[1][1] == 'o' && map[2][2] == 'o') || (map[0][0] == 'O' && map[1][1] == 'O' && map[2][2] == 'O') ||
+			(map[2][0] == 'o' && map[1][1] == 'o' && map[0][2] == 'o') || (map[2][0] == 'O' && map[1][1] == 'O' && map[0][2] == 'O')) {
+			winnerO(map);
 		}
 	}
 	return 0;
