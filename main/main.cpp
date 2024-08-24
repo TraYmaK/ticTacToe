@@ -93,7 +93,7 @@ int main() {
 		return 1;
 	}
 
-	bool isServerTurn = true;
+	bool isServerTurn = (choice == 's');
 
 	while (!gameover) {
 		system("cls");
@@ -101,7 +101,13 @@ int main() {
 		int z, x;
 		char c;
 
-		if (choice == 's') {
+		if (isServerTurn) {
+			if (choice == 's') {
+				cout << "Ваш ход, сервера: " << endl;
+			}
+			else {
+				cout << "Ваш ход, клиента: " << endl;
+			}
 			cout << "Введите номер столбца: ";
 			cin >> x;
 			cout << "Введите номер строки: ";
@@ -119,18 +125,13 @@ int main() {
 				continue;
 			}
 		}
-		else if(choice == 'c' && !isServerTurn) {
-			cout << "Ожидание хода противника..." << endl;
+		else {
+			cout << "" << endl;
 			network.ReceiveData((char*)&map, sizeof(map));
 			isServerTurn = true;
 		}
-		else {
-			cout << "Ожидание хода противника..." << endl;
-			network.ReceiveData((char*)&map, sizeof(map));
-			isServerTurn = !isServerTurn;
-		}
-
 		
+
 		
 		for (int i = 0; i < 3; i++) {
 			if ((map[i][0] == 'x' && map[i][1] == 'x' && map[i][2] == 'x') || (map[i][0] == 'X' && map[i][1] == 'X' && map[i][2] == 'X')) {
@@ -156,7 +157,7 @@ int main() {
 		}
 	}
 
-	WSACleanup;
+	WSACleanup();
 
 	return 0;
 }
