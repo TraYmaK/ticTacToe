@@ -2,6 +2,9 @@
 #include <time.h>
 #include <string>
 #include <thread>
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#include "network.h"
 
 using namespace std;
 
@@ -46,6 +49,13 @@ void winnerX(const char map[3][3]) {
 int main() {
 	setlocale(LC_ALL, "RU");
 
+	WSADATA wsaData;
+	if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
+		cerr << "Ошибка инициализации WinSock." << endl;
+		return 1;
+	}
+
+	NetworkGame network;
 	char map[3][3];
 
 	for (int i = 0; i < 3; i++) {
@@ -54,24 +64,74 @@ int main() {
 		}
 	}
 
+	char choice;
+	cout << "Запустить как сервер (s) или клиент (c)? ";
+	cin >> choice;
+
+	if (choice == 's') {
+		if (!network.InitializeServer()) {
+			cout << "Ошибка при запуске сервера." << endl;
+			WSACleanup();
+			return 1;
+		}
+		cout << "Сервер запущен. Ожидание подключения..." << endl;
+	}
+	else if (choice == 'c') {
+		string ipAddress;
+		cout << "Введите IP адрес сервера: ";
+		cin >> ipAddress;
+		if (!network.InitializeClient(ipAddress)) {
+			cout << "Ошибка подключения к серверу." << endl;
+			WSACleanup();
+			return 1;
+		}
+		cout << "Подключение к серверу установлено." << endl;
+	}
+	else {
+		cout << "Неверный выбор, выход." << endl;
+		WSACleanup();
+		return 1;
+	}
+
+	bool isServerTurn = true;
+
 	while (!gameover) {
 		system("cls");
 		draw(map);
 		int z, x;
 		char c;
-		cout << "Введите номер столбца: ";
-		cin >> x;
-		cout << "Введите номер строки: ";
-		cin >> z;
-		cout << "Введите X или O (буквами): ";
-		cin >> c;
-		if (z >= 0 && z < 3 && x >= 0 && x < 3 && map[z][x] == ' ' && (c == 'X' || c == 'x' || c == 'O' || c == 'o')) {
-			map[z][x] = c;
+
+		if (choice == 's') {
+			cout << "Введите номер столбца: ";
+			cin >> x;
+			cout << "Введите номер строки: ";
+			cin >> z;
+			cout << "Введите X или O (буквами): ";
+			cin >> c;
+			if (z >= 0 && z < 3 && x >= 0 && x < 3 && map[z][x] == ' ' && (c == 'X' || c == 'x' || c == 'O' || c == 'o')) {
+				map[z][x] = c;
+				network.SendData((char*)&map, sizeof(map));
+				isServerTurn = false;
+			}
+			else {
+				cout << endl << "Error \n";
+				system("pause");
+				continue;
+			}
+		}
+		else if(choice == 'c' && !isServerTurn) {
+			cout << "Ожидание хода противника..." << endl;
+			network.ReceiveData((char*)&map, sizeof(map));
+			isServerTurn = true;
 		}
 		else {
-			cout << endl << "Error \n";
-			system("pause");
+			cout << "Ожидание хода противника..." << endl;
+			network.ReceiveData((char*)&map, sizeof(map));
+			isServerTurn = !isServerTurn;
 		}
+
+		
+		
 		for (int i = 0; i < 3; i++) {
 			if ((map[i][0] == 'x' && map[i][1] == 'x' && map[i][2] == 'x') || (map[i][0] == 'X' && map[i][1] == 'X' && map[i][2] == 'X')) {
 				winnerX(map);
@@ -95,5 +155,8 @@ int main() {
 			winnerO(map);
 		}
 	}
+
+	WSACleanup;
+
 	return 0;
 }
